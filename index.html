@@ -25,6 +25,26 @@
   body { font-family: var(--font-ko); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; font-size: 16px; }
   .en-text { font-family: var(--font-en); }
   
+  /* ===== 로그인 오버레이 ===== */
+  #login-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg-color); z-index: 9999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .login-box {
+    background: var(--card-bg); padding: 40px; border-radius: 16px; border: 1px solid var(--border-color);
+    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); width: 90%; max-width: 400px;
+  }
+  .login-input {
+    width: 100%; padding: 14px; margin-bottom: 16px; border-radius: 10px; outline: none;
+    border: 1px solid var(--border-color); background: var(--box-bg); color: var(--text-main); font-size: 16px; font-family: inherit;
+  }
+  .login-input:focus { border-color: var(--accent-mint); }
+  .study-timer {
+    display: inline-block; margin-top: 15px; font-size: 14px; font-weight: 700; color: var(--accent-mint);
+    background: rgba(79, 214, 184, 0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(79, 214, 184, 0.3);
+  }
+
   header { text-align: center; padding: 25px 20px; border-bottom: 1px solid var(--border-color); background-color: var(--card-bg); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
   header h1 { font-family: var(--font-en); font-size: 1.8rem; color: var(--accent-gold); margin-bottom: 8px; }
   header p { font-size: 1rem; color: var(--text-muted); }
@@ -53,18 +73,27 @@
   .dir-btn { margin: 0 8px; border: 2px solid transparent; background: var(--box-bg); }
   .dir-btn.selected { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(227, 179, 65, 0.3); background: rgba(227, 179, 65, 0.1); }
   
-  .card-container { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 30px auto; perspective: 1000px; touch-action: none; display: none; }
+  /* 수정: 단어 카드 크기 확대 */
+  .card-container { position: relative; width: 100%; max-width: 500px; height: 320px; margin: 30px auto; perspective: 1000px; touch-action: none; display: none; }
   .card { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; transition: transform 0.5s; cursor: grab; }
   .card.flip { transform: rotateY(180deg); }
   .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; text-align: center; padding: 30px; border-radius: 16px; background: var(--box-bg); border: 2px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.5); user-select: none; }
-  .card-front { font-family: var(--font-en); font-size: 2.2rem; color: #fff; line-height: 1.2; }
-  .card-back { transform: rotateY(180deg); font-size: 1.8rem; color: var(--accent-gold); line-height: 1.3; font-weight: 600; }
+  
+  /* 수정: 앞면 폰트 사이즈 키움, 뒷면 폰트는 2pt 작게 설정 */
+  .card-front { font-family: var(--font-en); font-size: 2.8rem; color: #fff; line-height: 1.2; }
+  .card-back { transform: rotateY(180deg); font-size: calc(2.8rem - 2pt); color: var(--accent-gold); line-height: 1.3; font-weight: 600; }
   
   .swipe-indicators { display: flex; justify-content: space-between; margin-top: 25px; text-align: center; font-size: 1.1rem; color: var(--text-muted); display: none; font-weight: bold; }
   .vocab-stats { text-align: center; margin-top: 20px; font-size: 1.2rem; display: none; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
-  .vocab-list { margin-top: 40px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; }
-  .vocab-item { display: inline-block; margin: 6px; padding: 8px 14px; background: var(--box-bg); border-radius: 6px; font-size: 1rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
+  
+  /* 수정: 단어장 2열 정렬 및 가독성 개선 */
+  .vocab-list { margin-top: 40px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: center; }
+  .vocab-item { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 12px 18px; background: var(--box-bg); border-radius: 6px; font-size: 1rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
   .vocab-item:hover { border-color: var(--accent-purple); background: rgba(137, 87, 229, 0.1); }
+
+  @media (max-width: 600px) {
+    .vocab-list { grid-template-columns: 1fr; }
+  }
   
   /* Chunking Tab - Vertical Parallel Layout */
   .passage-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
@@ -140,110 +169,231 @@
 </head>
 <body>
 
-<header>
-  <h1>Lesson 4: King Jeongjo's Grand Procession</h1>
-  <p>고등 영어I 내신 완벽 대비 | YBM(박준언)</p>
-</header>
-
-<nav>
-  <button class="tab-btn active" data-target="tab-vocab">🃏 단어 카드</button>
-  <button class="tab-btn" data-target="tab-chunk">📖 직독직해</button>
-  <button class="tab-btn" data-target="tab-write">✍️ 영작</button>
-  <button class="tab-btn" data-target="tab-grammar">🎮 문법 게임</button>
-  <button class="tab-btn" data-target="tab-variant">📝 변형문제</button>
-</nav>
-
-<main>
-  <div id="tab-vocab" class="tab-content active">
-    <div class="vocab-setup" id="vocab-setup">
-      <h2 style="color:var(--text-main); margin-bottom: 10px;">단어 학습 방향 선택</h2>
-      <div class="mt-20">
-        <button class="btn dir-btn selected" data-dir="en2ko">영어 → 한글</button>
-        <button class="btn dir-btn" data-dir="ko2en">한글 → 영어</button>
-      </div>
-      <button class="btn btn-primary mt-20" id="btn-start-vocab" style="font-size:1.15rem; padding: 12px 35px; box-shadow: 0 4px 6px rgba(137,87,229,0.3);">학습 시작</button>
-      <p class="mt-20" style="font-size:0.95rem; color:var(--text-muted); line-height: 1.6;">
-        * 카드를 클릭하면 뒤집힙니다.<br>
-        * 분류: ⬅️ 모름 / ⬆️ 조금 헷갈림 / ➡️ 완벽히 앎<br>(마우스 드래그 또는 키보드 방향키)
-      </p>
-    </div>
+<div id="login-overlay">
+  <div class="login-box">
+    <h2 style="color:var(--accent-gold); margin-bottom: 20px; font-family:var(--font-en);">STUDY LOGIN</h2>
+    <p id="loading-msg" style="color:var(--text-muted); margin-bottom:15px;">인증 데이터를 불러오는 중...</p>
     
-    <div id="vocab-game" style="display:none;">
-      <div class="text-center" id="vocab-round-info" style="color:var(--accent-gold); font-weight:bold; font-size: 1.15rem;">1회차 학습 중...</div>
-      
-      <div class="card-container" id="card-container">
+    <div id="welcome-msg" style="display:none; color:var(--text-main); font-size:1.2rem; margin-bottom:20px; font-weight:bold;"></div>
+    
+    <input type="text" id="login-name" class="login-input" placeholder="이름" style="display:none;">
+    <input type="password" id="login-pw" class="login-input" placeholder="비밀번호" style="display:none;">
+    
+    <button id="login-btn" class="btn btn-primary" style="width:100%; font-size:1.1rem; padding:12px; display:none;" disabled>학습 시작하기</button>
+    <button id="btn-change-user" class="btn ghost" style="width:100%; margin-top:10px; display:none; background:transparent; border:none; color:var(--text-muted); text-decoration:underline;">다른 이름으로 로그인</button>
+  </div>
+</div>
+
+<div id="app-container" style="display:none;">
+  <header>
+    <h1>Lesson 4: King Jeongjo's Grand Procession</h1>
+    <p>고등 영어I 내신 완벽 대비 | YBM(박준언)</p>
+    <div id="study-timer" class="study-timer">이번 학습: 0분 0초 | 누적 학습: 0분 0초</div>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" data-target="tab-vocab">🃏 단어 카드</button>
+    <button class="tab-btn" data-target="tab-chunk">📖 직독직해</button>
+    <button class="tab-btn" data-target="tab-write">✍️ 영작</button>
+    <button class="tab-btn" data-target="tab-grammar">🎮 문법 게임</button>
+    <button class="tab-btn" data-target="tab-variant">📝 변형문제</button>
+  </nav>
+
+  <main>
+    <div id="tab-vocab" class="tab-content active">
+      <div class="vocab-setup" id="vocab-setup">
+        <h2 style="color:var(--text-main); margin-bottom: 10px;">단어 학습 방향 선택</h2>
+        <div class="mt-20">
+          <button class="btn dir-btn selected" data-dir="en2ko">영어 → 한글</button>
+          <button class="btn dir-btn" data-dir="ko2en">한글 → 영어</button>
         </div>
+        <button class="btn btn-primary mt-20" id="btn-start-vocab" style="font-size:1.15rem; padding: 12px 35px; box-shadow: 0 4px 6px rgba(137,87,229,0.3);">학습 시작</button>
+        <p class="mt-20" style="font-size:0.95rem; color:var(--text-muted); line-height: 1.6;">
+          * 카드를 클릭하면 뒤집힙니다.<br>
+          * 분류: ⬅️ 모름 / ⬆️ 조금 헷갈림 / ➡️ 완벽히 앎<br>(마우스 드래그 또는 키보드 방향키)
+        </p>
+      </div>
       
-      <div class="swipe-indicators" id="swipe-indicators">
-        <div style="color:var(--danger)">⬅️ 다시 학습</div>
-        <div style="color:var(--accent-purple)">⬆️ 헷갈림</div>
-        <div style="color:var(--accent-mint)">➡️ 통과</div>
-      </div>
-    </div>
-    
-    <div class="vocab-stats" id="vocab-stats"></div>
-    
-    <div class="vocab-list" id="vocab-list">
-      </div>
-  </div>
-
-  <div id="tab-chunk" class="tab-content">
-    <div class="passage-selector" id="chunk-p-selector"></div>
-    <div class="mode-selector">
-      <button class="btn chunk-mode-btn" data-mode="hide-ko">한글 가리기</button>
-      <button class="btn chunk-mode-btn" data-mode="hide-en">영어 가리기</button>
-      <button class="btn chunk-mode-btn btn-primary" data-mode="show-all">전체 보기</button>
-    </div>
-    <div id="chunk-content"></div>
-  </div>
-
-  <div id="tab-write" class="tab-content">
-    <div class="write-modes">
-      <button class="btn write-mode-btn btn-primary" data-mode="arrange">🧩 단어 배열</button>
-      <button class="btn write-mode-btn" data-mode="hint">💡 힌트 영작</button>
-      <button class="btn write-mode-btn" data-mode="direct">⌨️ 직접 영작</button>
-    </div>
-    <div id="write-content"></div>
-  </div>
-
-  <div id="tab-grammar" class="tab-content">
-    <div id="grammar-game-area">
-      <div class="grammar-status">
-        <span id="g-score">점수: 0</span>
-        <span id="g-combo" style="color:var(--accent-mint); display:none;">🔥 2 Combo!</span>
-        <span id="g-progress">1 / 20</span>
-      </div>
-      <div class="grammar-q-container" id="grammar-q-container">
-        <div class="grammar-q" id="g-q-text"></div>
-        <div class="grammar-opts" id="g-opts-area"></div>
-        <div class="g-exp" id="g-exp-area"></div>
-        <div class="text-center mt-20">
-          <button class="btn btn-primary" id="g-next-btn" style="display:none; padding: 12px 35px; font-size: 1.15rem;">다음 문제</button>
+      <div id="vocab-game" style="display:none;">
+        <div class="text-center" id="vocab-round-info" style="color:var(--accent-gold); font-weight:bold; font-size: 1.15rem;">1회차 학습 중...</div>
+        
+        <div class="card-container" id="card-container">
+          </div>
+        
+        <div class="swipe-indicators" id="swipe-indicators">
+          <div style="color:var(--danger)">⬅️ 다시 학습</div>
+          <div style="color:var(--accent-purple)">⬆️ 헷갈림</div>
+          <div style="color:var(--accent-mint)">➡️ 통과</div>
         </div>
       </div>
-    </div>
-    <div class="g-result-screen" id="g-result-screen">
-      <h2 style="color:var(--accent-gold); font-size:2.2rem; margin-bottom:15px;">학습 완료!</h2>
-      <p id="g-final-score" style="font-size:1.3rem; margin-bottom:25px; line-height: 1.5; color:var(--text-main);"></p>
-      <button class="btn btn-primary" id="btn-g-restart" style="padding: 12px 25px; font-size: 1.1rem;">다시 풀기</button>
-      <button class="btn btn-gold" id="btn-g-review" style="margin-left:10px; padding: 12px 25px; font-size: 1.1rem;">전체 정답 확인</button>
       
-      <div id="g-review-area" style="margin-top:40px; text-align:left; display:none;"></div>
+      <div class="vocab-stats" id="vocab-stats"></div>
+      
+      <div class="vocab-list" id="vocab-list">
+        </div>
     </div>
-  </div>
 
-  <div id="tab-variant" class="tab-content">
-    <div class="passage-selector" id="variant-p-selector"></div>
-    <div id="variant-content"></div>
-  </div>
-</main>
+    <div id="tab-chunk" class="tab-content">
+      <div class="passage-selector" id="chunk-p-selector"></div>
+      <div class="mode-selector">
+        <button class="btn chunk-mode-btn" data-mode="hide-ko">한글 가리기</button>
+        <button class="btn chunk-mode-btn" data-mode="hide-en">영어 가리기</button>
+        <button class="btn chunk-mode-btn btn-primary" data-mode="show-all">전체 보기</button>
+      </div>
+      <div id="chunk-content"></div>
+    </div>
 
-<footer>
-  <p>AI Generated Interactive Learning App</p>
-  <p>High School English I Lesson 4</p>
-</footer>
+    <div id="tab-write" class="tab-content">
+      <div class="write-modes">
+        <button class="btn write-mode-btn btn-primary" data-mode="arrange">🧩 단어 배열</button>
+        <button class="btn write-mode-btn" data-mode="hint">💡 힌트 영작</button>
+        <button class="btn write-mode-btn" data-mode="direct">⌨️ 직접 영작</button>
+      </div>
+      <div id="write-content"></div>
+    </div>
+
+    <div id="tab-grammar" class="tab-content">
+      <div id="grammar-game-area">
+        <div class="grammar-status">
+          <span id="g-score">점수: 0</span>
+          <span id="g-combo" style="color:var(--accent-mint); display:none;">🔥 2 Combo!</span>
+          <span id="g-progress">1 / 20</span>
+        </div>
+        <div class="grammar-q-container" id="grammar-q-container">
+          <div class="grammar-q" id="g-q-text"></div>
+          <div class="grammar-opts" id="g-opts-area"></div>
+          <div class="g-exp" id="g-exp-area"></div>
+          <div class="text-center mt-20">
+            <button class="btn btn-primary" id="g-next-btn" style="display:none; padding: 12px 35px; font-size: 1.15rem;">다음 문제</button>
+          </div>
+        </div>
+      </div>
+      <div class="g-result-screen" id="g-result-screen">
+        <h2 style="color:var(--accent-gold); font-size:2.2rem; margin-bottom:15px;">학습 완료!</h2>
+        <p id="g-final-score" style="font-size:1.3rem; margin-bottom:25px; line-height: 1.5; color:var(--text-main);"></p>
+        <button class="btn btn-primary" id="btn-g-restart" style="padding: 12px 25px; font-size: 1.1rem;">다시 풀기</button>
+        <button class="btn btn-gold" id="btn-g-review" style="margin-left:10px; padding: 12px 25px; font-size: 1.1rem;">전체 정답 확인</button>
+        
+        <div id="g-review-area" style="margin-top:40px; text-align:left; display:none;"></div>
+      </div>
+    </div>
+
+    <div id="tab-variant" class="tab-content">
+      <div class="passage-selector" id="variant-p-selector"></div>
+      <div id="variant-content"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>AI Generated Interactive Learning App</p>
+    <p>High School English I Lesson 4</p>
+  </footer>
+</div>
 
 <script>
+/* ============== GOOGLE SHEETS LOGIN & TIMER ============== */
+const sheetId = '17ARTCYwJFKBGhZmtsHnyGxLce4Jl5wd9dRmvZFMTJhs';
+const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+let userCredentials = {};
+
+let sessionSeconds = 0;
+let cumulativeSeconds = 0;
+let timerInterval;
+
+async function initLogin() {
+    try {
+        const res = await fetch(csvUrl);
+        if (!res.ok) throw new Error('Network error');
+        const csv = await res.text();
+        
+        const rows = csv.split('\n');
+        for(let i=1; i<rows.length; i++) {
+            const cols = rows[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
+            if (cols.length >= 2 && cols[0]) {
+                userCredentials[cols[0]] = cols[1];
+            }
+        }
+        
+        document.getElementById('loading-msg').style.display = 'none';
+        
+        const savedName = localStorage.getItem('studyUserNameL4_KingJeongjo'); 
+        const loginNameInput = document.getElementById('login-name');
+        const loginPwInput = document.getElementById('login-pw');
+        const loginBtn = document.getElementById('login-btn');
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const changeUserBtn = document.getElementById('btn-change-user');
+
+        loginPwInput.style.display = 'block';
+        loginBtn.style.display = 'block';
+        loginBtn.disabled = false;
+
+        if (savedName && userCredentials[savedName]) {
+            loginNameInput.style.display = 'none';
+            loginNameInput.value = savedName;
+            welcomeMsg.style.display = 'block';
+            welcomeMsg.innerText = `${savedName}님, 다시 오신 것을 환영합니다!`;
+            changeUserBtn.style.display = 'block';
+        } else {
+            loginNameInput.style.display = 'block';
+        }
+
+        changeUserBtn.onclick = () => {
+            localStorage.removeItem('studyUserNameL4_KingJeongjo');
+            loginNameInput.value = '';
+            loginNameInput.style.display = 'block';
+            welcomeMsg.style.display = 'none';
+            changeUserBtn.style.display = 'none';
+        };
+
+        loginBtn.onclick = () => {
+            const name = loginNameInput.value.trim();
+            const pw = loginPwInput.value.trim();
+            
+            if(!name) { alert("이름을 입력해주세요."); return; }
+            if(!pw) { alert("비밀번호를 입력해주세요."); return; }
+            
+            if(userCredentials[name] && userCredentials[name] === pw) {
+                localStorage.setItem('studyUserNameL4_KingJeongjo', name);
+                startApp(name);
+            } else {
+                alert("이름 또는 비밀번호가 일치하지 않습니다.");
+            }
+        };
+    } catch(e) {
+        console.error(e);
+        document.getElementById('loading-msg').innerText = "인증 데이터를 불러오지 못했습니다. 인터넷 연결 상태를 확인해주세요.";
+    }
+}
+
+function formatTime(totalSec) {
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    let res = '';
+    if(h > 0) res += `${h}시간 `;
+    if(m > 0 || h > 0) res += `${m}분 `;
+    res += `${s}초`;
+    return res;
+}
+
+function startApp(name) {
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('app-container').style.display = 'block';
+    
+    cumulativeSeconds = parseInt(localStorage.getItem(`studyCumulSecL4_KingJeongjo_${name}`) || '0');
+    
+    timerInterval = setInterval(() => {
+        sessionSeconds++;
+        cumulativeSeconds++;
+        localStorage.setItem(`studyCumulSecL4_KingJeongjo_${name}`, cumulativeSeconds);
+        
+        document.getElementById('study-timer').innerText = `이번 학습: ${formatTime(sessionSeconds)} | 누적 학습: ${formatTime(cumulativeSeconds)}`;
+    }, 1000);
+}
+
+window.addEventListener('DOMContentLoaded', initLogin);
+
+
 // --- DATA STRUCTURES ---
 
 // Exactly 60 Vocab Words
@@ -492,11 +642,11 @@ let cardEl = null;
 
 const renderVocabList = () => {
   const list = document.getElementById('vocab-list');
-  list.innerHTML = '<h3 style="margin-bottom:20px; font-size:1.3rem; color:var(--accent-gold); border-bottom:1px solid var(--border-color); padding-bottom:10px;">전체 단어장 (60 단어)</h3>';
+  list.innerHTML = '<h3 style="grid-column: 1 / -1; margin-bottom:20px; font-size:1.3rem; color:var(--accent-gold); border-bottom:1px solid var(--border-color); padding-bottom:10px; text-align:center;">전체 단어장 (60 단어)</h3>';
   VOCAB.forEach(v => {
-    const span = document.createElement('span');
+    const span = document.createElement('div');
     span.className = 'vocab-item';
-    span.innerHTML = `<strong style="color:var(--text-main);">${v[0]}</strong> <span style="color:var(--text-muted);">|</span> <span style="color:var(--accent-mint);">${v[1]}</span>`;
+    span.innerHTML = `<strong style="color:var(--text-main); font-size:1.1rem; flex:1;">${v[0]}</strong> <span style="color:var(--text-muted); padding:0 15px;">|</span> <span style="color:var(--accent-mint); font-size:1.05rem; flex:1; text-align:right;">${v[1]}</span>`;
     span.onclick = () => speak(v[0]);
     list.appendChild(span);
   });
