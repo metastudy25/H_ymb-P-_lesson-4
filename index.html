@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High School English - Lesson 4 King Jeongjo's Grand Procession</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --box-bg: #21262d;
+    --text-main: #e6edf3;
+    --text-muted: #8b949e;
+    --accent-purple: #8957e5;
+    --accent-mint: #2ea043;
+    --accent-gold: #e3b341;
+    --border-color: #30363d;
+    --danger: #f85149;
+    --font-en: 'Fraunces', serif;
+    --font-ko: 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-ko); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; font-size: 16px; }
+  .en-text { font-family: var(--font-en); }
+  
+  header { text-align: center; padding: 25px 20px; border-bottom: 1px solid var(--border-color); background-color: var(--card-bg); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+  header h1 { font-family: var(--font-en); font-size: 1.8rem; color: var(--accent-gold); margin-bottom: 8px; }
+  header p { font-size: 1rem; color: var(--text-muted); }
+  
+  nav { display: flex; overflow-x: auto; gap: 12px; padding: 15px 20px; background: #010409; position: sticky; top: 0; z-index: 100; scrollbar-width: none; border-bottom: 1px solid var(--border-color); }
+  nav::-webkit-scrollbar { display: none; }
+  .tab-btn { flex: 0 0 auto; padding: 10px 22px; border-radius: 50px; border: 1px solid var(--border-color); background: var(--box-bg); color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 1.05rem; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .tab-btn.active { background: var(--accent-purple); border-color: var(--accent-purple); color: #fff; box-shadow: 0 0 12px rgba(137, 87, 229, 0.4); }
+  
+  main { padding: 30px 20px; max-width: 900px; margin: 0 auto; min-height: 70vh; }
+  .tab-content { display: none; animation: fadeIn 0.3s ease-in; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  /* Buttons */
+  button { font-family: inherit; cursor: pointer; border: none; outline: none; color: var(--text-main); }
+  .btn { padding: 10px 18px; border-radius: 6px; font-weight: 600; background: var(--box-bg); border: 1px solid var(--border-color); color: var(--text-main); transition: 0.2s; font-size: 0.95rem; }
+  .btn:hover { background: #30363d; }
+  .btn-primary { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+  .btn-primary:hover { background: #9e6cf9; }
+  .btn-success { background: var(--accent-mint); color: #fff; border-color: var(--accent-mint); }
+  .btn-gold { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
+  
+  /* Vocab Card Tab */
+  .vocab-setup { text-align: center; padding: 40px 0; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px; }
+  .dir-btn { margin: 0 8px; border: 2px solid transparent; background: var(--box-bg); }
+  .dir-btn.selected { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(227, 179, 65, 0.3); background: rgba(227, 179, 65, 0.1); }
+  
+  .card-container { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 30px auto; perspective: 1000px; touch-action: none; display: none; }
+  .card { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; transition: transform 0.5s; cursor: grab; }
+  .card.flip { transform: rotateY(180deg); }
+  .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; text-align: center; padding: 30px; border-radius: 16px; background: var(--box-bg); border: 2px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.5); user-select: none; }
+  .card-front { font-family: var(--font-en); font-size: 2.2rem; color: #fff; line-height: 1.2; }
+  .card-back { transform: rotateY(180deg); font-size: 1.8rem; color: var(--accent-gold); line-height: 1.3; font-weight: 600; }
+  
+  .swipe-indicators { display: flex; justify-content: space-between; margin-top: 25px; text-align: center; font-size: 1.1rem; color: var(--text-muted); display: none; font-weight: bold; }
+  .vocab-stats { text-align: center; margin-top: 20px; font-size: 1.2rem; display: none; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+  .vocab-list { margin-top: 40px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; }
+  .vocab-item { display: inline-block; margin: 6px; padding: 8px 14px; background: var(--box-bg); border-radius: 6px; font-size: 1rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
+  .vocab-item:hover { border-color: var(--accent-purple); background: rgba(137, 87, 229, 0.1); }
+  
+  /* Chunking Tab - Vertical Parallel Layout */
+  .passage-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+  .mode-selector { margin-bottom: 30px; display: flex; gap: 12px; background: var(--card-bg); padding: 18px; border-radius: 10px; justify-content: center; border: 1px solid var(--border-color); }
+  .chunk-sentence { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+  .chunk-header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--border-color); padding-bottom: 18px; margin-bottom: 20px; align-items: flex-start; }
+  .chunk-full-en { font-family: var(--font-en); font-size: 1.3rem; font-weight: 600; cursor: pointer; color: var(--accent-purple); margin-bottom: 10px; line-height: 1.5; }
+  .chunk-full-ko { font-size: 1.1rem; color: var(--text-muted); line-height: 1.5; }
+  
+  .chunk-parts { display: flex; flex-direction: row; flex-wrap: wrap; gap: 15px; }
+  .chunk-item { display: flex; flex-direction: column; background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; flex: 1 1 calc(50% - 15px); min-width: 250px; transition: transform 0.2s, border-color 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .chunk-item:hover { border-color: var(--accent-purple); transform: translateY(-2px); }
+  .chunk-en { font-family: var(--font-en); color: var(--text-main); font-weight: 600; font-size: 1.15rem; cursor: pointer; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; margin-bottom: 10px; width: 100%; }
+  .chunk-ko { font-size: 1.05rem; color: var(--accent-gold); cursor: pointer; width: 100%; font-weight: 500; }
+  
+  .hidden-chunk { background: #30363d; color: transparent !important; border-radius: 4px; position: relative; user-select: none; border-color: transparent !important; }
+  .hidden-chunk::after { content: "?"; color: var(--text-muted); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: var(--font-en); font-size: 1.2rem; }
+  
+  /* Writing Tab */
+  .write-modes { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; background: var(--card-bg); padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); }
+  .write-item { background: var(--card-bg); padding: 28px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border-color); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+  .write-ko { font-size: 1.2rem; margin-bottom: 12px; font-weight: bold; line-height: 1.5; color: #fff; }
+  .write-hint { font-size: 1rem; color: var(--accent-mint); margin-bottom: 18px; font-weight: 500; }
+  
+  .word-bank, .word-slot { display: flex; flex-wrap: wrap; gap: 10px; min-height: 70px; padding: 18px; background: var(--box-bg); border-radius: 8px; margin-bottom: 18px; border: 2px dashed var(--border-color); }
+  .word-chip { padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; cursor: pointer; font-family: var(--font-en); font-size: 1.15rem; user-select: none; transition: 0.2s; color: var(--text-main); font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .word-chip:hover { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); transform: translateY(-2px); }
+  
+  .write-textarea { width: 100%; height: 110px; background: var(--box-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; font-family: var(--font-en); font-size: 1.15rem; margin-bottom: 18px; resize: vertical; display: none; }
+  .write-textarea:focus { outline: none; border-color: var(--accent-purple); }
+  
+  .write-result { margin-top: 20px; padding: 20px; border-radius: 8px; display: none; background: var(--box-bg); font-size: 1.1rem; line-height: 1.6; border: 1px solid var(--border-color); }
+  .res-word { display: inline-block; margin-right: 6px; font-family: var(--font-en); }
+  .res-correct { color: var(--accent-mint); }
+  .res-wrong { color: var(--danger); text-decoration: line-through; }
+  .res-correction { color: var(--accent-mint); margin-left: 4px; font-weight: bold; }
+  .res-missing { color: var(--accent-gold); font-weight: bold; }
+  .res-extra { color: var(--text-muted); font-style: italic; }
+  .res-answer { margin-top: 15px; color: var(--accent-purple); font-family: var(--font-en); border-top: 1px dashed var(--border-color); padding-top: 15px; font-size: 1.25rem; font-weight: 600; }
+  
+  /* Grammar Game */
+  .grammar-status { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; color: var(--accent-gold); font-size: 1.15rem; }
+  .grammar-q-container { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+  .grammar-q { font-family: var(--font-en); font-size: 1.35rem; margin-bottom: 30px; line-height: 1.6; color: #fff; }
+  .grammar-opts { display: flex; flex-direction: column; gap: 14px; }
+  .g-opt { padding: 18px 22px; background: var(--box-bg); border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; font-family: var(--font-en); text-align: left; transition: all 0.2s ease; font-size: 1.15rem; color: #c9d1d9; font-weight: 500; }
+  .g-opt:hover { background: #30363d; border-color: #8b949e; transform: translateX(5px); }
+  .g-opt.correct { background: rgba(46, 160, 67, 0.2); border-color: var(--accent-mint); color: #fff; font-weight: 700; }
+  .g-opt.wrong { background: rgba(248, 81, 73, 0.15); border-color: var(--danger); color: #fff; }
+  .g-exp { margin-top: 25px; padding: 20px; background: rgba(137, 87, 229, 0.1); border-left: 5px solid var(--accent-purple); display: none; font-size: 1.1rem; line-height: 1.6; color: #e6edf3; border-radius: 0 8px 8px 0; }
+  .g-result-screen { text-align: center; display: none; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+  
+  /* Variants */
+  .variant-box { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 35px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+  .v-passage { background: var(--box-bg); padding: 25px; border-radius: 8px; font-family: var(--font-en); font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px; border-left: 4px solid var(--text-muted); color: #e6edf3; }
+  .v-q-box { margin-bottom: 35px; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; background: var(--card-bg); }
+  .v-q-box:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .v-q-type { display: inline-block; padding: 5px 12px; background: var(--accent-purple); color: #fff; font-size: 0.9rem; border-radius: 6px; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+  .v-q { font-weight: bold; margin-bottom: 15px; font-size: 1.2rem; color: #fff; }
+  .v-sentence { font-family: var(--font-en); background: rgba(46, 160, 67, 0.08); padding: 18px; border-radius: 8px; margin-bottom: 20px; color: var(--accent-mint); font-size: 1.15rem; line-height: 1.5; border: 1px solid rgba(46, 160, 67, 0.2); }
+  .v-opts { margin-bottom: 20px; font-family: var(--font-en); display: flex; flex-direction: column; gap: 10px; font-size: 1.1rem; }
+  .v-opt-item { background: var(--box-bg); padding: 12px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
+  .v-ans-box { display: none; background: rgba(227, 179, 65, 0.1); padding: 20px; border-radius: 8px; border-left: 5px solid var(--accent-gold); font-size: 1.1rem; margin-top: 15px; }
+  .v-ans-text { font-weight: bold; color: var(--accent-gold); margin-bottom: 8px; font-size: 1.15rem; }
+  
+  footer { text-align: center; padding: 30px 20px; margin-top: 50px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; background: var(--card-bg); }
+  
+  .text-center { text-align: center; }
+  .mt-10 { margin-top: 10px; }
+  .mt-20 { margin-top: 20px; }
+  .ml-10 { margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Lesson 4: King Jeongjo's Grand Procession</h1>
+  <p>고등 영어I 내신 완벽 대비 | YBM(박준언)</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-target="tab-vocab">🃏 단어 카드</button>
+  <button class="tab-btn" data-target="tab-chunk">📖 직독직해</button>
+  <button class="tab-btn" data-target="tab-write">✍️ 영작</button>
+  <button class="tab-btn" data-target="tab-grammar">🎮 문법 게임</button>
+  <button class="tab-btn" data-target="tab-variant">📝 변형문제</button>
+</nav>
+
+<main>
+  <div id="tab-vocab" class="tab-content active">
+    <div class="vocab-setup" id="vocab-setup">
+      <h2 style="color:var(--text-main); margin-bottom: 10px;">단어 학습 방향 선택</h2>
+      <div class="mt-20">
+        <button class="btn dir-btn selected" data-dir="en2ko">영어 → 한글</button>
+        <button class="btn dir-btn" data-dir="ko2en">한글 → 영어</button>
+      </div>
+      <button class="btn btn-primary mt-20" id="btn-start-vocab" style="font-size:1.15rem; padding: 12px 35px; box-shadow: 0 4px 6px rgba(137,87,229,0.3);">학습 시작</button>
+      <p class="mt-20" style="font-size:0.95rem; color:var(--text-muted); line-height: 1.6;">
+        * 카드를 클릭하면 뒤집힙니다.<br>
+        * 분류: ⬅️ 모름 / ⬆️ 조금 헷갈림 / ➡️ 완벽히 앎<br>(마우스 드래그 또는 키보드 방향키)
+      </p>
+    </div>
+    
+    <div id="vocab-game" style="display:none;">
+      <div class="text-center" id="vocab-round-info" style="color:var(--accent-gold); font-weight:bold; font-size: 1.15rem;">1회차 학습 중...</div>
+      
+      <div class="card-container" id="card-container">
+        </div>
+      
+      <div class="swipe-indicators" id="swipe-indicators">
+        <div style="color:var(--danger)">⬅️ 다시 학습</div>
+        <div style="color:var(--accent-purple)">⬆️ 헷갈림</div>
+        <div style="color:var(--accent-mint)">➡️ 통과</div>
+      </div>
+    </div>
+    
+    <div class="vocab-stats" id="vocab-stats"></div>
+    
+    <div class="vocab-list" id="vocab-list">
+      </div>
+  </div>
+
+  <div id="tab-chunk" class="tab-content">
+    <div class="passage-selector" id="chunk-p-selector"></div>
+    <div class="mode-selector">
+      <button class="btn chunk-mode-btn" data-mode="hide-ko">한글 가리기</button>
+      <button class="btn chunk-mode-btn" data-mode="hide-en">영어 가리기</button>
+      <button class="btn chunk-mode-btn btn-primary" data-mode="show-all">전체 보기</button>
+    </div>
+    <div id="chunk-content"></div>
+  </div>
+
+  <div id="tab-write" class="tab-content">
+    <div class="write-modes">
+      <button class="btn write-mode-btn btn-primary" data-mode="arrange">🧩 단어 배열</button>
+      <button class="btn write-mode-btn" data-mode="hint">💡 힌트 영작</button>
+      <button class="btn write-mode-btn" data-mode="direct">⌨️ 직접 영작</button>
+    </div>
+    <div id="write-content"></div>
+  </div>
+
+  <div id="tab-grammar" class="tab-content">
+    <div id="grammar-game-area">
+      <div class="grammar-status">
+        <span id="g-score">점수: 0</span>
+        <span id="g-combo" style="color:var(--accent-mint); display:none;">🔥 2 Combo!</span>
+        <span id="g-progress">1 / 20</span>
+      </div>
+      <div class="grammar-q-container" id="grammar-q-container">
+        <div class="grammar-q" id="g-q-text"></div>
+        <div class="grammar-opts" id="g-opts-area"></div>
+        <div class="g-exp" id="g-exp-area"></div>
+        <div class="text-center mt-20">
+          <button class="btn btn-primary" id="g-next-btn" style="display:none; padding: 12px 35px; font-size: 1.15rem;">다음 문제</button>
+        </div>
+      </div>
+    </div>
+    <div class="g-result-screen" id="g-result-screen">
+      <h2 style="color:var(--accent-gold); font-size:2.2rem; margin-bottom:15px;">학습 완료!</h2>
+      <p id="g-final-score" style="font-size:1.3rem; margin-bottom:25px; line-height: 1.5; color:var(--text-main);"></p>
+      <button class="btn btn-primary" id="btn-g-restart" style="padding: 12px 25px; font-size: 1.1rem;">다시 풀기</button>
+      <button class="btn btn-gold" id="btn-g-review" style="margin-left:10px; padding: 12px 25px; font-size: 1.1rem;">전체 정답 확인</button>
+      
+      <div id="g-review-area" style="margin-top:40px; text-align:left; display:none;"></div>
+    </div>
+  </div>
+
+  <div id="tab-variant" class="tab-content">
+    <div class="passage-selector" id="variant-p-selector"></div>
+    <div id="variant-content"></div>
+  </div>
+</main>
+
+<footer>
+  <p>AI Generated Interactive Learning App</p>
+  <p>High School English I Lesson 4</p>
+</footer>
+
+<script>
+// --- DATA STRUCTURES ---
+
+// Exactly 60 Vocab Words
+const VOCAB = [
+  ["fascinating", "흥미로운, 매력적인"], ["remarkable", "놀라운, 주목할 만한"], ["witness", "목격하다"],
+  ["procession", "행차, 행렬"], ["official", "관리, 공무원"], ["march", "행진하다"],
+  ["alongside", "~와 함께, 나란히"], ["turn heads", "이목을 끌다"], ["ordinary", "일반적인, 평범한"],
+  ["rarely", "좀처럼 ~않는"], ["lasting", "지속되는"], ["cover", "이동하다, 덮다"],
+  ["round trip", "왕복 여행"], ["show respect", "공경을 표하다"], ["dynasty", "왕조"],
+  ["tomb", "무덤, 묘"], ["memorial service", "제사, 추모식"], ["honor", "기리다, 존경하다"],
+  ["combine", "결합하다"], ["make a statement", "의견을 표명하다, 보여주다"], ["strength", "힘, 강함"],
+  ["military leader", "장수, 군사 지도자"], ["armor", "갑옷"], ["in perfect order", "일사불란하게, 질서정연하게"],
+  ["twist", "반전, 예상 밖의 전개"], ["have something to do with", "~와 관련이 있다"], ["fortress", "요새, 성곽"],
+  ["self-sufficient", "자급자족의"], ["political chaos", "정치적 혼란"], ["gather", "모으다"],
+  ["talent", "인재, 재능"], ["fine", "훌륭한, 뛰어난"], ["architectural", "건축의"],
+  ["technique", "기술"], ["construction", "건설, 축성"], ["fair", "정당한, 공정한"],
+  ["wage", "임금"], ["break", "휴식"], ["unheard of", "전례가 없는, 들어본 적 없는"],
+  ["typically", "대개, 일반적으로"], ["get wind of", "~에 대한 소문을 듣다"], ["in a rush", "서둘러, 급히"],
+  ["initially", "처음에"], ["fancy", "화려한, 장식적인"], ["up close and personal", "가까이서 개인적으로"],
+  ["set up", "마련하다, 세우다"], ["concern", "고민, 걱정"], ["cherry on top", "금상첨화"],
+  ["accessible", "접근하기 쉬운"], ["give a shot", "시도해 볼 기회를 주다"], ["innovative", "혁신적인"],
+  ["diverse", "다양한"], ["document", "기록하다; 문서"], ["properly", "제대로, 적절히"],
+  ["lifesaver", "구원자, 큰 도움이 되는 것"], ["recognize", "인정하다"], ["authentic", "진품인, 진짜의"],
+  ["restore", "복원하다"], ["figure", "인물"], ["symbolize", "상징하다"]
+];
+
+const PASSAGES = [
+  {
+    id: "p1", name: "행차의 시작", title: "King Jeongjo's Grand Procession",
+    sentences: [
+      {
+        en: "Back on February 9, 1795, something remarkable happened in front of Changdeokgung Palace, where King Jeongjo lived.",
+        ko: "1795년 2월 9일, 정조대왕이 거처하던 창덕궁 앞에서 놀라운 일이 벌어졌어요.",
+        chunks: [["Back on February 9, 1795,", "1795년 2월 9일,"], ["something remarkable happened", "놀라운 일이 벌어졌어요"], ["in front of Changdeokgung Palace,", "창덕궁 앞에서"], ["where King Jeongjo lived.", "정조대왕이 거처하던"]]
+      },
+      {
+        en: "There was quite a crowd gathered there to witness a very special procession that's still talked about in Korea today.",
+        ko: "오늘날까지도 한국에서 회자되는 아주 특별한 행차를 목격하기 위해 많은 사람들이 그곳에 모였어요.",
+        chunks: [["There was quite a crowd", "꽤 많은 사람들이 있었어요"], ["gathered there", "그곳에 모인"], ["to witness a very special procession", "아주 특별한 행차를 목격하기 위해"], ["that's still talked about in Korea today.", "오늘날까지도 한국에서 회자되는"]]
+      },
+      {
+        en: "When they crossed a bridge made of 36 boats on the Hangang River, you can imagine how that turned heads!",
+        ko: "이들이 한강에서 36척의 배로 만든 다리를 건넜을 때 얼마나 사람들의 이목을 끌었는지 상상할 수 있을 거예요!",
+        chunks: [["When they crossed a bridge", "그들이 다리를 건넜을 때"], ["made of 36 boats", "36척의 배로 만들어진"], ["on the Hangang River,", "한강에 있는"], ["you can imagine", "당신은 상상할 수 있을 거예요"], ["how that turned heads!", "그것이 얼마나 이목을 끌었는지!"]]
+      }
+    ]
+  },
+  {
+    id: "p2", name: "가족 공경과 위엄", title: "Respect and Strength",
+    sentences: [
+      {
+        en: "The first thing King Jeongjo had in mind was to show respect to his family.",
+        ko: "정조대왕이 가장 먼저 생각한 것은 가족에 대한 공경을 보여 주는 것이었어요.",
+        chunks: [["The first thing", "가장 먼저 생각한 것은"], ["King Jeongjo had in mind", "정조대왕이 마음속에 가졌던"], ["was to show respect", "공경을 보여 주는 것이었어요"], ["to his family.", "그의 가족에게"]]
+      },
+      {
+        en: "By combining the two events, he was telling everyone how much family meant to him.",
+        ko: "이 두 가지 행사를 결합함으로써 그는 가족이 그에게 얼마나 큰 의미가 있는지 모두에게 말했던 것이죠.",
+        chunks: [["By combining the two events,", "이 두 가지 행사를 결합함으로써,"], ["he was telling everyone", "그는 모두에게 말하고 있었어요"], ["how much family meant to him.", "가족이 그에게 얼마나 큰 의미가 있는지"]]
+      },
+      {
+        en: "He dressed up like a military leader, wearing armor and sitting on a horse with his soldiers marching in perfect order.",
+        ko: "그는 그의 병사들이 일사불란하게 행진하는 가운데, 갑옷을 입고 말 위에 앉아 장수처럼 차려입었어요.",
+        chunks: [["He dressed up like a military leader,", "그는 장수처럼 차려입었어요,"], ["wearing armor and sitting on a horse", "갑옷을 입고 말 위에 앉아"], ["with his soldiers marching", "그의 병사들이 행진하는 가운데"], ["in perfect order.", "일사불란하게(완벽한 질서로)"]]
+      },
+      {
+        en: "He was really serious about making the Joseon Dynasty a powerful and successful kingdom.",
+        ko: "정조는 진심으로 조선을 부강하고 성공적인 나라로 만들고자 했어요.",
+        chunks: [["He was really serious about", "그는 ~에 대해 진심이었어요"], ["making the Joseon Dynasty", "조선 왕조를 만드는 것에 대해"], ["a powerful and successful kingdom.", "부강하고 성공적인 나라로"]]
+      }
+    ]
+  },
+  {
+    id: "p3", name: "화성 건설", title: "Building Hwaseong Fortress",
+    sentences: [
+      {
+        en: "Now, here's the twist: the procession also had something to do with Hwaseong Fortress, which was being built.",
+        ko: "자, 여기 뜻밖의 반전이 있습니다. 이 행차는 화성과도 관련이 있는데요. 그것은 당시 건설 중이었어요.",
+        chunks: [["Now, here's the twist:", "자, 여기 반전이 있습니다:"], ["the procession also had something to do with", "이 행차는 또한 ~와 관련이 있었어요"], ["Hwaseong Fortress,", "화성과,"], ["which was being built.", "그것은 (당시) 건설 중이었어요"]]
+      },
+      {
+        en: "They received fair wages and breaks during bad weather and were even paid when they were sick, something that was unheard of at that time.",
+        ko: "그들은 정당한 임금을 받았고 악천후 시에는 휴식을 취했으며, 병이 났을 때에도 임금을 받았는데 당시로서는 전례가 없는 일이었어요.",
+        chunks: [["They received fair wages and breaks", "그들은 정당한 임금과 휴식을 받았어요"], ["during bad weather", "악천후 시에"], ["and were even paid when they were sick,", "그리고 병이 났을 때에도 심지어 임금을 받았어요,"], ["something that was unheard of", "전례가 없었던 일이었던"], ["at that time.", "그 당시에는"]]
+      },
+      {
+        en: "Once people got wind of King Jeongjo's plan, workers from all over the country came together in a rush.",
+        ko: "정조의 계획에 대한 소문을 듣고 전국 각지에서 일꾼들이 한꺼번에 서둘러 몰려들었어요.",
+        chunks: [["Once people got wind of", "사람들이 ~에 대한 소문을 듣자마자"], ["King Jeongjo's plan,", "정조의 계획에 대한,"], ["workers from all over the country", "전국 각지의 일꾼들이"], ["came together in a rush.", "서둘러 함께 모여들었어요"]]
+      },
+      {
+        en: "So, in under three years was the project finished, though it was initially thought to take about 10 years.",
+        ko: "그래서 처음에는 10년 정도 걸릴 것으로 예상했던 공사를 3년도 채 안 되어 끝낼 수 있었어요.",
+        chunks: [["So, in under three years", "그래서, 3년도 채 안 되어"], ["was the project finished,", "그 공사가 끝났어요, (도치)"], ["though it was initially thought", "비록 그것이 처음에 생각되었지만"], ["to take about 10 years.", "약 10년이 걸릴 것으로"]]
+      }
+    ]
+  },
+  {
+    id: "p4", name: "소통과 백성", title: "Communication and People",
+    sentences: [
+      {
+        en: "It was actually a way for them to get up close and personal with the king.",
+        ko: "그것은 사실 백성들이 왕에게 가까이 그리고 개인적으로 다가갈 수 있는 통로였어요.",
+        chunks: [["It was actually a way", "그것은 사실 방법이었어요"], ["for them to get up close and personal", "그들이 가까이 개인적으로 다가갈 수 있는"], ["with the king.", "왕과 함께"]]
+      },
+      {
+        en: "They didn't have any other way to tell the king what was on their minds, so this was a direct line to him.",
+        ko: "그들은 왕에게 자신의 생각을 말할 다른 방법이 없었기 때문에 이 자리는 왕에게 통하는 직통 전화였던 셈입니다.",
+        chunks: [["They didn't have any other way", "그들은 다른 방법이 없었어요"], ["to tell the king", "왕에게 말할"], ["what was on their minds,", "그들 마음속에 있는 것을,"], ["so this was a direct line to him.", "그래서 이것은 그에게 가는 직통 경로였어요"]]
+      },
+      {
+        en: "He added special exams during the procession, giving more people a shot at joining the government.",
+        ko: "정조는 행차 기간에 특별 시험을 추가해 더 많은 사람이 정부에 들어갈 수 있도록 시도할 수 있도록 했어요.",
+        chunks: [["He added special exams", "그는 특별 시험을 추가했어요"], ["during the procession,", "행차 기간 동안,"], ["giving more people a shot", "더 많은 사람들에게 기회를 주면서"], ["at joining the government.", "정부에 합류할 수 있는"]]
+      }
+    ]
+  },
+  {
+    id: "p5", name: "유네스코 등재", title: "Documentation and Heritage",
+    sentences: [
+      {
+        en: "They were even part of why UNESCO recognized Hwaseong Fortress as a World Heritage Site.",
+        ko: "이 기록은 유네스코가 화성을 세계문화유산으로 인정한 이유 중 하나이기도 해요.",
+        chunks: [["They were even part of", "그것들은 심지어 ~의 일부이기도 했어요"], ["why UNESCO recognized Hwaseong Fortress", "왜 유네스코가 화성을 인정했는지의"], ["as a World Heritage Site.", "세계문화유산으로"]]
+      },
+      {
+        en: "They weren't totally convinced it was authentic.",
+        ko: "화성이 진품이라는 것을 완전히 확신하지 못했기 때문이죠.",
+        chunks: [["They weren't totally convinced", "그들은 완전히 확신하지 못했어요"], ["it was authentic.", "그것이 진품이라는 것을"]]
+      },
+      {
+        en: "Hwaseong is more than just a fortress; it symbolizes a king who cared for his people.",
+        ko: "화성은 단순한 요새가 아니라 백성을 돌보던 왕을 상징하지요.",
+        chunks: [["Hwaseong is more than just a fortress;", "화성은 단순한 요새 그 이상입니다;"], ["it symbolizes a king", "그것은 왕을 상징합니다"], ["who cared for his people.", "그의 백성을 돌보았던"]]
+      }
+    ]
+  }
+];
+
+const WRITE = [
+  {ko: "1795년 2월 9일, 정조대왕이 거처하던 창덕궁 앞에서 놀라운 일이 벌어졌어요.", en: "Back on February 9, 1795, something remarkable happened in front of Changdeokgung Palace, where King Jeongjo lived.", hint: "where 관계부사 사용"},
+  {ko: "그곳에는 오늘날까지도 한국에서 회자되는 아주 특별한 행차를 목격하기 위해 많은 사람들이 모여 있었어요.", en: "There was quite a crowd gathered there to witness a very special procession that's still talked about in Korea today.", hint: "gathered 분사, that 관계대명사 사용"},
+  {ko: "왕과 그의 어머니를 따라 행진하는 군인들과 수백 명의 기마병을 상상해보세요.", en: "Imagine this: soldiers and hundreds of horse riders marching alongside the king and his mother.", hint: "marching 분사 사용"},
+  {ko: "정조대왕이 가장 먼저 생각한 것은 가족에 대한 공경을 보여 주는 것이었어요.", en: "The first thing King Jeongjo had in mind was to show respect to his family.", hint: "The first thing ~ was to-v"},
+  {ko: "정조는 진심으로 조선을 부강하고 성공적인 나라로 만들고자 했어요.", en: "He was really serious about making the Joseon Dynasty a powerful and successful kingdom.", hint: "serious about -ing, make A B"},
+  {ko: "자, 여기 뜻밖의 반전이 있습니다: 이 행차는 건설 중이던 화성과도 관련이 있었어요.", en: "Now, here's the twist: the procession also had something to do with Hwaseong Fortress, which was being built.", hint: "have something to do with, which was being built (수동 진행)"},
+  {ko: "병이 났을 때에도 임금을 받았는데, 그것은 당시로서는 전례가 없는 일이었어요.", en: "They were even paid when they were sick, something that was unheard of at that time.", hint: ", something that was ~"},
+  {ko: "정조의 계획에 대한 소문을 듣고 전국 각지에서 일꾼들이 한꺼번에 서둘러 몰려들었어요.", en: "Once people got wind of King Jeongjo's plan, workers from all over the country came together in a rush.", hint: "Once ~ (접속사), got wind of"},
+  {ko: "그래서 처음에는 10년 정도 걸릴 것으로 예상했던 공사를 3년도 안 되어 끝낼 수 있었어요. (도치구문 사용)", en: "So, in under three years was the project finished, though it was initially thought to take about 10 years.", hint: "in under three years was the project finished (도치)"},
+  {ko: "그것은 사실 백성들이 왕에게 가까이 그리고 개인적으로 다가갈 수 있는 방법이었어요.", en: "It was actually a way for them to get up close and personal with the king.", hint: "for + 목적격 + to-v"},
+  {ko: "유네스코 사람들은 그것이 진품이라는 것을 완전히 확신하지 못했어요.", en: "They weren't totally convinced it was authentic.", hint: "convinced (that) ~"},
+  {ko: "화성은 단순한 요새가 아닙니다; 그것은 백성을 돌보던 왕을 상징해요.", en: "Hwaseong is more than just a fortress; it symbolizes a king who cared for his people.", hint: "more than, who 관계대명사"}
+];
+
+const GRAMMAR = [
+  {type: "관계사", q: "Something remarkable happened in front of Changdeokgung Palace, ____ King Jeongjo lived.", opts: ["where", "which", "that", "when"], a: 0, exp: "장소 선행사(창덕궁) 뒤에 완전한 절(King Jeongjo lived)이 오므로 관계부사 where가 적절합니다."},
+  {type: "분사", q: "There was quite a crowd ____ there to witness a very special procession.", opts: ["gathered", "gathering", "gather", "to gather"], a: 0, exp: "군중(crowd)이 모여진 수동의 의미 또는 이미 모여있는 완료의 상태를 수식하는 과거분사 gathered가 적절합니다."},
+  {type: "도치", q: "So, in under three years ____ the project finished, though it was initially thought to take about 10 years.", opts: ["was", "did", "had", "has"], a: 0, exp: "부사구(in under three years)가 문두로 나가면서 조동사/be동사(was)와 주어(the project)가 도치되었습니다. 뒤에 과거분사 finished가 있으므로 수동태 be동사 was가 맞습니다."},
+  {type: "대명사", q: "They were even paid when they were sick, ____ that was unheard of at that time.", opts: ["something", "anything", "nothing", "everything"], a: 0, exp: "앞 문장의 내용 일부를 동격으로 부연 설명하는 명사 'something'이 올바릅니다."},
+  {type: "어휘 숙어", q: "The procession also ____ with Hwaseong Fortress.", opts: ["had something to do", "had nothing to do", "made something to do", "took something to do"], a: 0, exp: "'~와 관련이 있다'라는 뜻의 숙어는 'have something to do with'입니다."},
+  {type: "수동태 진행형", q: "The procession also had something to do with Hwaseong Fortress, which ____ built.", opts: ["was being", "is being", "has been", "had been"], a: 0, exp: "당시에(과거) 건설이 진행 중이었음을 나타내므로 과거 진행 수동태(was being p.p)가 필요합니다."},
+  {type: "관계대명사", q: "Hwaseong is more than just a fortress; it symbolizes a king ____ cared for his people.", opts: ["who", "whom", "which", "whose"], a: 0, exp: "선행사가 사람(a king)이고 주어 역할을 하므로 주격 관계대명사 who가 맞습니다."},
+  {type: "분사", q: "He dressed up like a military leader, ____ armor and sitting on a horse.", opts: ["wearing", "worn", "wear", "to wear"], a: 0, exp: "주어(He)가 직접 갑옷을 입고 있는 능동 진행의 분사구문이므로 현재분사 wearing이 적절합니다."},
+  {type: "접속사/전치사", q: "____ peaceful times, people lived in and around the eupseong.", opts: ["During", "While", "For", "Through"], a: 0, exp: "뒤에 명사구(peaceful times)가 왔으므로 전치사 During이 와야 합니다. While은 접속사입니다."},
+  {type: "의문사절", q: "They didn't have any other way to tell the king ____ was on their minds.", opts: ["what", "that", "which", "how"], a: 0, exp: "전치사 tell의 목적어 역할을 하는 명사절을 이끌고 뒤에 주어가 없는 불완전한 문장이 오므로 what이 맞습니다."},
+  {type: "to부정사 의미상의 주어", q: "It was actually a way ____ them to get up close and personal with the king.", opts: ["for", "of", "to", "with"], a: 0, exp: "to부정사(to get up close)의 의미상의 주어를 나타내려면 'for + 목적격'을 씁니다."},
+  {type: "분사구문", q: "He added special exams during the procession, ____ more people a shot at joining the government.", opts: ["giving", "given", "gave", "to give"], a: 0, exp: "능동적으로 사람들에게 기회를 주었다는 의미의 분사구문이므로 giving이 적절합니다."},
+  {type: "동명사 의미", q: "He was really serious about ____ the Joseon Dynasty a powerful and successful kingdom.", opts: ["making", "make", "to make", "made"], a: 0, exp: "전치사 about의 목적어로 동명사 making이 와야 합니다."},
+  {type: "과거분사 수식", q: "When they crossed a bridge ____ of 36 boats on the Hangang River...", opts: ["made", "making", "make", "to make"], a: 0, exp: "다리(a bridge)가 배로 '만들어진' 수동의 관계이므로 과거분사 made가 수식해야 합니다."},
+  {type: "수동태", q: "These construction records were a lifesaver when the fortress ____ during wartime.", opts: ["was damaged", "damaged", "is damaged", "damages"], a: 0, exp: "요새가 훼손 '된' 것이고 시제가 과거이므로 was damaged가 적절합니다."},
+  {type: "어휘", q: "They weren't totally convinced it was ____.", opts: ["authentic", "artificial", "fake", "awkward"], a: 0, exp: "문맥상 유네스코 사람들은 그것이 '진품인, 진짜의(authentic)'라는 것을 확신하지 못했습니다."},
+  {type: "접속사", q: "____ people got wind of King Jeongjo's plan, workers came together in a rush.", opts: ["Once", "Unless", "Although", "Whereas"], a: 0, exp: "'일단 ~하자마자, ~했을 때'의 의미를 지닌 접속사 Once가 문맥상 가장 적절합니다."},
+  {type: "어휘", q: "Living in the sanseong was not practical due to ____ farmland.", opts: ["scarce", "abundant", "enough", "rich"], a: 0, exp: "산성은 농토가 '부족하고(scarce)' 생활 환경이 열악해 현실성이 없었다는 문맥입니다."},
+  {type: "숙어/관용표현", q: "During that time, the government ____ hold exams to hire officials every three years.", opts: ["used to", "was used to", "is used to", "would like to"], a: 0, exp: "과거의 규칙적인 습관이나 상태를 나타내는 'used to + 동사원형(~하곤 했다)'이 맞습니다."},
+  {type: "능/수동태", q: "Ordinary people were typically ____ to work on public projects without getting paid.", opts: ["required", "requiring", "require", "to require"], a: 0, exp: "일반 백성들은 공공 공사에 투입 '되는 것(요구 받는 것)'이므로 수동태인 were required가 맞습니다."}
+];
+
+const VARIANTS = {
+  "p1": [
+    {type: "내용일치", q: "위 단락의 내용과 일치하는 것은?", sentence: "", opts: ["정조대왕은 화성행궁에서 거처하고 있었다.", "행차는 일반인들이 흔히 볼 수 있는 평범한 광경이었다.", "36척의 배로 만든 다리로 한강을 건넜다.", "행차에는 왕과 음악가들만 참여했다."], ans: 2},
+    {type: "어법", q: "어법상 틀린 부분을 고치시오.", sentence: "There was quite a crowd gathering there to witness a very special procession.", opts: null, ans: "gathering -> gathered (이미 모인 군중들의 수동/완료 상태)"},
+    {type: "빈칸추론", q: "빈칸에 들어갈 알맞은 단어는?", sentence: "That must have been something ordinary people [    ] saw.", opts: ["rarely", "frequently", "often", "always"], ans: 0},
+    {type: "영작", q: "우리말에 맞게 배열하시오. (how / you / that / turned / can / imagine / heads!)", sentence: "그것이 얼마나 이목을 끌었는지 상상할 수 있을 거예요!", opts: null, ans: "you can imagine how that turned heads!"},
+    {type: "지칭추론", q: "밑줄 친 'they'가 가리키는 것은?", sentence: "When [they] crossed a bridge made of 36 boats...", opts: ["The king, his mother, and the entire procession", "Only the musicians", "The boats on the Hangang River", "Ordinary people"], ans: 0}
+  ],
+  "p2": [
+    {type: "제목추론", q: "이 단락의 알맞은 제목은?", sentence: "", opts: ["Reasons for the Grand Procession", "How to Build Hwaseong Fortress", "The Birth of King Jeongjo", "Types of Traditional Instruments"], ans: 0},
+    {type: "빈칸추론", q: "빈칸에 들어갈 알맞은 말은?", sentence: "By combining the two events, he was telling everyone how much [    ] meant to him.", opts: ["family", "money", "power", "war"], ans: 0},
+    {type: "어법", q: "어법상 어색한 부분을 고르시오.", sentence: "He dressed up like a military leader, worn armor and sitting on a horse.", opts: ["dressed up", "like", "worn", "sitting"], ans: 2}, // worn -> wearing
+    {type: "영작", q: "빈칸을 채우시오. (He / serious / making / kingdom)", sentence: "그는 진심으로 조선을 부강하고 성공적인 나라로 만들고자 했어요. = He was really [   ] about [   ] the Joseon Dynasty a powerful and successful [   ].", opts: null, ans: "serious, making, kingdom"},
+    {type: "내용불일치", q: "윗글의 내용과 일치하지 않는 것은?", sentence: "", opts: ["정조는 어머니의 회갑 즈음에 행차를 했다.", "화성행궁 근처에는 아버지의 묘가 있었다.", "정조는 평상복을 입고 말에 올랐다.", "이 행차는 왕조의 힘을 보여주는 수단이기도 했다."], ans: 2}
+  ],
+  "p3": [
+    {type: "순서배열", q: "우리말에 맞게 어순을 배열하시오. (was / under three years / finished / the project / in)", sentence: "그래서 3년도 안 되어 공사가 끝났다.", opts: null, ans: "in under three years was the project finished"},
+    {type: "내용일치", q: "이 단락에 따르면 성곽 축조 노동자들에 대한 설명으로 옳은 것은?", sentence: "", opts: ["돈을 전혀 받지 못했다.", "병이 났을 때만 돈을 받았다.", "악천후에도 쉬지 않고 일했다.", "정당한 임금과 휴식을 보장받았다."], ans: 3},
+    {type: "어휘", q: "빈칸에 들어갈 알맞은 숙어는?", sentence: "Once people [    ] King Jeongjo's plan, workers came together in a rush.", opts: ["got wind of", "got out of", "got rid of", "got tired of"], ans: 0},
+    {type: "어법", q: "어법상 옳은 것을 고르시오.", sentence: "The procession also had something to do with Hwaseong Fortress, which ( is / was ) being built.", opts: ["is", "was"], ans: 1},
+    {type: "빈칸추론", q: "빈칸에 들어갈 단어는?", sentence: "..., something that was [    ] of at that time.", opts: ["unheard", "spoken", "proud", "aware"], ans: 0}
+  ],
+  "p4": [
+    {type: "요지추론", q: "이 단락의 중심 내용은?", sentence: "", opts: ["행차를 통한 왕과 백성의 소통 및 관직 개방", "조선시대 과거 시험의 어려움", "행차의 화려함과 음악적 가치", "일반 백성들의 정치적 무관심"], ans: 0},
+    {type: "어법", q: "빈칸에 들어갈 적절한 전치사는?", sentence: "It was actually a way [   ] them to get up close and personal with the king.", opts: ["for", "to", "of", "by"], ans: 0},
+    {type: "빈칸추론", q: "문맥상 빈칸에 알맞은 단어는?", sentence: "This move was [    ] back then and made the government more diverse.", opts: ["innovative", "traditional", "useless", "dangerous"], ans: 0},
+    {type: "의미추론", q: "'this was a direct line to him'이 의미하는 바는?", sentence: "", opts: ["왕에게 직접 의견을 전달할 수 있는 수단이었다.", "왕과 전화 통화를 할 수 있었다.", "직선 도로가 건설되었다.", "관리가 되기 위한 시험이었다."], ans: 0},
+    {type: "어휘", q: "문맥상 알맞은 형태를 고르시오.", sentence: "He added special exams, ( giving / given ) more people a shot.", opts: ["giving", "given"], ans: 0}
+  ],
+  "p5": [
+    {type: "어휘", q: "빈칸에 들어갈 알맞은 단어는?", sentence: "They weren't totally convinced it was [    ].", opts: ["authentic", "artificial", "fake", "modern"], ans: 0},
+    {type: "내용일치", q: "유네스코가 화성을 인정하게 된 결정적 계기는?", sentence: "", opts: ["외국인들의 방문", "정확한 축성 기록과 번역된 문서", "행차의 화려함", "아름다운 주변 경관"], ans: 1},
+    {type: "영작", q: "우리말에 맞게 빈칸을 채우시오.", sentence: "화성은 백성을 돌보던 왕을 상징한다. = it [    ] a king [    ] cared for his people.", opts: null, ans: "symbolizes, who"},
+    {type: "어법", q: "어법상 틀린 부분을 고치시오.", sentence: "These construction records were especially a lifesaver when the fortress was damaging during wartime.", opts: null, ans: "was damaging -> was damaged (훼손된 수동)"},
+    {type: "지칭추론", q: "밑줄 친 'They'가 가리키는 것은?", sentence: "[They] were even part of why UNESCO recognized Hwaseong Fortress...", opts: ["The records (of the procession and construction)", "The kings", "The UNESCO people", "The painters"], ans: 0}
+  ]
+};
+
+// --- CORE LOGIC ---
+
+// Tab Switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    document.getElementById(e.target.dataset.target).classList.add('active');
+    
+    // Stop speech synthesis on tab switch
+    speechSynthesis.cancel();
+  });
+});
+
+const speak = (text) => {
+  if(!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
+};
+
+// --- 1. VOCAB TAB ---
+let vocabDeck = [];
+let vocabCurrentIdx = 0;
+let vocabDir = 'en2ko'; // en2ko or ko2en
+let vocabResults = { left: [], up: [], right: [] };
+let cardEl = null;
+
+const renderVocabList = () => {
+  const list = document.getElementById('vocab-list');
+  list.innerHTML = '<h3 style="margin-bottom:20px; font-size:1.3rem; color:var(--accent-gold); border-bottom:1px solid var(--border-color); padding-bottom:10px;">전체 단어장 (60 단어)</h3>';
+  VOCAB.forEach(v => {
+    const span = document.createElement('span');
+    span.className = 'vocab-item';
+    span.innerHTML = `<strong style="color:var(--text-main);">${v[0]}</strong> <span style="color:var(--text-muted);">|</span> <span style="color:var(--accent-mint);">${v[1]}</span>`;
+    span.onclick = () => speak(v[0]);
+    list.appendChild(span);
+  });
+};
+renderVocabList();
+
+document.querySelectorAll('.dir-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('selected'));
+    e.target.classList.add('selected');
+    vocabDir = e.target.dataset.dir;
+  });
+});
+
+document.getElementById('btn-start-vocab').addEventListener('click', () => {
+  document.getElementById('vocab-setup').style.display = 'none';
+  document.getElementById('vocab-game').style.display = 'block';
+  document.getElementById('swipe-indicators').style.display = 'flex';
+  
+  // Shuffle array
+  vocabDeck = [...VOCAB].sort(() => Math.random() - 0.5);
+  vocabResults = { left: [], up: [], right: [] };
+  vocabCurrentIdx = 0;
+  
+  renderNextCard();
+});
+
+const renderNextCard = () => {
+  const container = document.getElementById('card-container');
+  container.style.display = 'block';
+  container.innerHTML = '';
+  
+  if (vocabCurrentIdx >= vocabDeck.length) {
+    endVocabRound();
+    return;
+  }
+  
+  const v = vocabDeck[vocabCurrentIdx];
+  const frontText = vocabDir === 'en2ko' ? v[0] : v[1];
+  const backText = vocabDir === 'en2ko' ? v[1] : v[0];
+  
+  cardEl = document.createElement('div');
+  cardEl.className = 'card';
+  cardEl.innerHTML = `
+    <div class="card-face card-front">${frontText}</div>
+    <div class="card-face card-back">${backText}</div>
+  `;
+  container.appendChild(cardEl);
+  
+  if(vocabDir === 'en2ko') speak(v[0]);
+  
+  setupCardEvents(cardEl, v);
+};
+
+const setupCardEvents = (card, wordData) => {
+  let startX = 0, startY = 0, currentX = 0, currentY = 0;
+  let isDragging = false, moved = false;
+  
+  const onDown = (e) => {
+    isDragging = true;
+    moved = false;
+    startX = e.clientX || e.touches[0].clientX;
+    startY = e.clientY || e.touches[0].clientY;
+    card.style.transition = 'none';
+  };
+  
+  const onMove = (e) => {
+    if(!isDragging) return;
+    const clientX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
+    const clientY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
+    currentX = clientX - startX;
+    currentY = clientY - startY;
+    
+    if(Math.abs(currentX) > 5 || Math.abs(currentY) > 5) moved = true;
+    
+    const rotate = currentX * 0.1;
+    card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`;
+    card.style.opacity = 1 - (Math.max(Math.abs(currentX), Math.abs(currentY)) / 400);
+  };
+  
+  const onUp = () => {
+    if(!isDragging) return;
+    isDragging = false;
+    card.style.transition = 'transform 0.5s, opacity 0.5s';
+    
+    const threshold = 80;
+    if (currentX < -threshold) processCardSwipe('left', wordData);
+    else if (currentX > threshold) processCardSwipe('right', wordData);
+    else if (currentY < -threshold) processCardSwipe('up', wordData);
+    else {
+      // Snap back
+      card.style.transform = card.classList.contains('flip') ? 'rotateY(180deg)' : '';
+      card.style.opacity = '1';
+    }
+  };
+  
+  // Mouse / Touch
+  card.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  
+  card.addEventListener('touchstart', onDown, {passive: true});
+  window.addEventListener('touchmove', onMove, {passive: true});
+  window.addEventListener('touchend', onUp);
+  
+  card.addEventListener('click', () => {
+    if(moved) return; // Prevent flip on drag
+    card.style.transform = ''; 
+    card.style.opacity = '1';
+    card.classList.toggle('flip');
+    if(card.classList.contains('flip') && vocabDir === 'ko2en') {
+      speak(wordData[0]); // speak english on flip if ko2en
+    }
+  });
+  
+  // Keyboard
+  document.onkeydown = (e) => {
+    if(document.getElementById('tab-vocab').classList.contains('active') && cardEl) {
+      if(e.key === 'ArrowLeft') processCardSwipe('left', wordData);
+      if(e.key === 'ArrowRight') processCardSwipe('right', wordData);
+      if(e.key === 'ArrowUp') processCardSwipe('up', wordData);
+      if(e.key === ' ' || e.key === 'ArrowDown') card.click();
+    }
+  };
+};
+
+const processCardSwipe = (dir, wordData) => {
+  document.onkeydown = null;
+  vocabResults[dir].push(wordData);
+  cardEl.style.transform = dir === 'left' ? 'translate(-300px, 0)' : dir === 'right' ? 'translate(300px, 0)' : 'translate(0, -300px)';
+  cardEl.style.opacity = '0';
+  
+  setTimeout(() => {
+    vocabCurrentIdx++;
+    renderNextCard();
+  }, 300);
+};
+
+const endVocabRound = () => {
+  const container = document.getElementById('card-container');
+  const stats = document.getElementById('vocab-stats');
+  container.style.display = 'none';
+  stats.style.display = 'block';
+  
+  const toReview = [...vocabResults.left, ...vocabResults.up];
+  
+  stats.innerHTML = `
+    <h3 style="color:var(--accent-gold); font-size:1.6rem; margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">학습 결과</h3>
+    <p class="mt-10" style="font-size:1.2rem;">완벽히 앎 (통과): <span style="color:var(--accent-mint); font-weight:bold;">${vocabResults.right.length}</span>개</p>
+    <p style="font-size:1.2rem;">헷갈림: <span style="color:var(--accent-purple); font-weight:bold;">${vocabResults.up.length}</span>개</p>
+    <p style="font-size:1.2rem;">모름: <span style="color:var(--danger); font-weight:bold;">${vocabResults.left.length}</span>개</p>
+  `;
+  
+  if (toReview.length > 0) {
+    stats.innerHTML += `
+      <p class="mt-20" style="color:var(--text-muted); font-size:1rem;">재학습이 필요한 단어가 ${toReview.length}개 있습니다.</p>
+      <button class="btn btn-primary mt-10" id="btn-vocab-retry" style="padding:12px 25px; font-size:1.1rem; margin-top:20px;">재학습 하기</button>
+    `;
+    document.getElementById('btn-vocab-retry').onclick = () => {
+      stats.style.display = 'none';
+      vocabDeck = toReview;
+      vocabResults = { left: [], up: [], right: [] };
+      vocabCurrentIdx = 0;
+      renderNextCard();
+    };
+  } else {
+    stats.innerHTML += `
+      <h2 class="mt-20" style="color:var(--accent-mint); font-size:1.8rem; margin-top:25px;">모든 단어를 마스터했습니다! 🎉</h2>
+      <button class="btn btn-gold mt-10" onclick="location.reload()" style="padding:12px 25px; font-size:1.1rem; margin-top:20px;">처음부터 다시</button>
+    `;
+  }
+};
+
+
+// --- 2. CHUNKING TAB ---
+const renderChunkSelector = () => {
+  const sel = document.getElementById('chunk-p-selector');
+  PASSAGES.forEach((p, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + (idx === 0 ? 'btn-primary' : '');
+    btn.innerText = p.name;
+    btn.onclick = () => {
+      sel.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary'));
+      btn.classList.add('btn-primary');
+      renderChunkContent(p.id, 'show-all');
+    };
+    sel.appendChild(btn);
+  });
+};
+
+const renderChunkContent = (pid, mode) => {
+  const content = document.getElementById('chunk-content');
+  const passage = PASSAGES.find(p => p.id === pid);
+  let html = `<h2 style="color:var(--accent-gold); margin-bottom:25px; font-size:1.5rem; border-left:4px solid var(--accent-gold); padding-left:10px;">${passage.title}</h2>`;
+  
+  passage.sentences.forEach((s, idx) => {
+    html += `
+      <div class="chunk-sentence" id="s-${idx}">
+        <div class="chunk-header">
+          <div style="flex:1;">
+            <div class="chunk-full-en" onclick="speak('${s.en.replace(/'/g, "\\'")}')">${s.en}</div>
+            <div class="chunk-full-ko">${s.ko}</div>
+          </div>
+          <button class="btn btn-gold" onclick="resetChunkBox('s-${idx}', '${mode}')" style="white-space: nowrap; margin-left: 20px; align-self:center;">↻ 다시</button>
+        </div>
+        <div class="chunk-parts">
+    `;
+    
+    s.chunks.forEach(c => {
+      const enClass = mode === 'hide-en' ? 'hidden-chunk chunk-en' : 'chunk-en';
+      const koClass = mode === 'hide-ko' ? 'hidden-chunk chunk-ko' : 'chunk-ko';
+      
+      html += `
+        <div class="chunk-item">
+          <span class="${enClass}" onclick="revealChunk(this, true, '${c[0].replace(/'/g, "\\'")}')">${c[0]}</span>
+          <span class="${koClass}" onclick="revealChunk(this, false, null)">${c[1]}</span>
+        </div>
+      `;
+    });
+    html += `</div></div>`;
+  });
+  content.innerHTML = html;
+};
+
+window.revealChunk = (el, isEn, text) => {
+  if (el.classList.contains('hidden-chunk')) {
+    el.classList.remove('hidden-chunk');
+    if(isEn && text) speak(text);
+  } else if (isEn && text) {
+    speak(text); // speak even if already revealed
+  }
+};
+
+window.resetChunkBox = (id, mode) => {
+  const box = document.getElementById(id);
+  box.querySelectorAll('.chunk-en').forEach(el => {
+    if(mode === 'hide-en') el.classList.add('hidden-chunk');
+    else el.classList.remove('hidden-chunk');
+  });
+  box.querySelectorAll('.chunk-ko').forEach(el => {
+    if(mode === 'hide-ko') el.classList.add('hidden-chunk');
+    else el.classList.remove('hidden-chunk');
+  });
+};
+
+document.querySelectorAll('.chunk-mode-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.chunk-mode-btn').forEach(b => b.classList.remove('btn-primary'));
+    e.target.classList.add('btn-primary');
+    const pid = document.querySelector('#chunk-p-selector .btn-primary').innerText;
+    const actualPid = PASSAGES.find(p => p.name === pid).id;
+    renderChunkContent(actualPid, e.target.dataset.mode);
+  });
+});
+
+renderChunkSelector();
+renderChunkContent(PASSAGES[0].id, 'show-all');
+
+
+// --- 3. WRITING TAB ---
+let writeMode = 'arrange';
+
+const renderWriteContent = () => {
+  const content = document.getElementById('write-content');
+  content.innerHTML = '';
+  
+  WRITE.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'write-item';
+    
+    let interfaceHtml = '';
+    if (writeMode === 'arrange') {
+      const words = item.en.split(' ').sort(() => Math.random() - 0.5);
+      const bankId = `bank-${idx}`;
+      const slotId = `slot-${idx}`;
+      
+      interfaceHtml = `
+        <div class="word-slot" id="${slotId}" onclick="handleWordMove(event, '${bankId}')"></div>
+        <div class="word-bank" id="${bankId}" onclick="handleWordMove(event, '${slotId}')">
+          ${words.map(w => `<span class="word-chip">${w}</span>`).join('')}
+        </div>
+      `;
+    } else {
+      interfaceHtml = `<textarea class="write-textarea" id="ta-${idx}" style="display:block;" placeholder="Type your answer here..."></textarea>`;
+    }
+    
+    div.innerHTML = `
+      <div class="write-ko"><span style="color:var(--accent-gold);">${idx+1}.</span> ${item.ko}</div>
+      ${writeMode === 'hint' ? `<div class="write-hint">[Hint] ${item.hint}</div>` : ''}
+      ${interfaceHtml}
+      <button class="btn btn-success" onclick="checkWrite(${idx}, '${item.en.replace(/'/g, "\\'")}')" style="padding:10px 20px; font-size:1.05rem;">확인/채점</button>
+      <button class="btn btn-gold ml-10" onclick="resetWrite(${idx})" style="padding:10px 20px; font-size:1.05rem;">↻ 다시</button>
+      <div class="write-result" id="res-${idx}"></div>
+    `;
+    content.appendChild(div);
+  });
+};
+
+document.querySelectorAll('.write-mode-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.write-mode-btn').forEach(b => b.classList.remove('btn-primary'));
+    e.target.classList.add('btn-primary');
+    writeMode = e.target.dataset.mode;
+    renderWriteContent();
+  });
+});
+
+window.handleWordMove = (e, targetId) => {
+  if (e.target.classList.contains('word-chip')) {
+    document.getElementById(targetId).appendChild(e.target);
+  }
+};
+
+window.checkWrite = (idx, answerText) => {
+  let userText = "";
+  if (writeMode === 'arrange') {
+    const slots = document.getElementById(`slot-${idx}`).querySelectorAll('.word-chip');
+    userText = Array.from(slots).map(s => s.innerText).join(' ');
+  } else {
+    userText = document.getElementById(`ta-${idx}`).value.trim();
+  }
+  
+  const cleanAns = answerText.replace(/[.,?!:]/g, '').toLowerCase().split(' ');
+  const cleanUser = userText.replace(/[.,?!:]/g, '').toLowerCase().split(' ').filter(w=>w);
+  
+  let resultHtml = "";
+  let i = 0, j = 0;
+  
+  // Basic comparison
+  while(i < cleanUser.length || j < cleanAns.length) {
+    const u = cleanUser[i];
+    const a = cleanAns[j];
+    
+    if (u === a) {
+      resultHtml += `<span class="res-word res-correct">${u}</span> `;
+      i++; j++;
+    } else if (cleanAns.slice(j).includes(u)) {
+      resultHtml += `<span class="res-word res-missing">[${a}]</span> `;
+      j++;
+    } else if (cleanUser.slice(i).includes(a)) {
+      resultHtml += `<span class="res-word res-extra">${u}</span> `;
+      i++;
+    } else {
+      if(u) resultHtml += `<span class="res-word res-wrong">${u}</span>`;
+      if(a) resultHtml += `<span class="res-word res-correction">→ ${a}</span> `;
+      i++; j++;
+    }
+  }
+  
+  const resDiv = document.getElementById(`res-${idx}`);
+  resDiv.style.display = 'block';
+  resDiv.innerHTML = `
+    <div>${resultHtml}</div>
+    <div class="res-answer">정답: ${answerText}</div>
+  `;
+};
+
+window.resetWrite = (idx) => {
+  document.getElementById(`res-${idx}`).style.display = 'none';
+  if (writeMode === 'arrange') {
+    renderWriteContent(); // Re-render to shuffle
+  } else {
+    document.getElementById(`ta-${idx}`).value = '';
+  }
+};
+
+renderWriteContent();
+
+
+// --- 4. GRAMMAR GAME ---
+let gScore = 0, gCombo = 0, gIdx = 0;
+let gQuestions = [];
+let gMistakes = [];
+
+const initGrammar = () => {
+  gQuestions = [...GRAMMAR].sort(() => Math.random() - 0.5).slice(0, 20);
+  gScore = 0; gCombo = 0; gIdx = 0; gMistakes = [];
+  document.getElementById('g-result-screen').style.display = 'none';
+  document.getElementById('grammar-game-area').style.display = 'block';
+  renderGrammarQ();
+};
+
+const renderGrammarQ = () => {
+  document.getElementById('g-progress').innerText = `문제: ${gIdx + 1} / ${gQuestions.length}`;
+  document.getElementById('g-score').innerText = `점수: ${gScore}`;
+  
+  const comboEl = document.getElementById('g-combo');
+  if (gCombo >= 3) {
+    comboEl.style.display = 'inline';
+    comboEl.innerText = `🔥 ${gCombo} Combo!`;
+  } else {
+    comboEl.style.display = 'none';
+  }
+  
+  const q = gQuestions[gIdx];
+  document.getElementById('g-q-text').innerHTML = `<strong style="color:var(--accent-purple); margin-right:10px;">[${q.type}]</strong> ${q.q}`;
+  
+  const optsArea = document.getElementById('g-opts-area');
+  optsArea.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'g-opt';
+    btn.innerText = `①②③④⑤`.charAt(idx) + ` ${opt}`;
+    btn.onclick = () => checkGrammar(idx, btn);
+    optsArea.appendChild(btn);
+  });
+  
+  document.getElementById('g-exp-area').style.display = 'none';
+  document.getElementById('g-next-btn').style.display = 'none';
+};
+
+const checkGrammar = (selectedIdx, btnEl) => {
+  const optsBtns = document.querySelectorAll('.g-opt');
+  optsBtns.forEach(b => b.onclick = null); // disable clicks
+  
+  const q = gQuestions[gIdx];
+  const expArea = document.getElementById('g-exp-area');
+  expArea.innerHTML = `<strong style="color:var(--accent-mint); font-size:1.2rem;">정답: ${q.opts[q.a]}</strong><br><br>${q.exp}`;
+  expArea.style.display = 'block';
+  
+  if (selectedIdx === q.a) {
+    btnEl.classList.add('correct');
+    gCombo++;
+    gScore += 10 + (gCombo >= 3 ? 5 : 0);
+  } else {
+    btnEl.classList.add('wrong');
+    optsBtns[q.a].classList.add('correct');
+    gCombo = 0;
+    gMistakes.push(q);
+  }
+  
+  document.getElementById('g-score').innerText = `점수: ${gScore}`;
+  document.getElementById('g-next-btn').style.display = 'inline-block';
+};
+
+document.getElementById('g-next-btn').addEventListener('click', () => {
+  gIdx++;
+  if (gIdx >= gQuestions.length) showGrammarResult();
+  else renderGrammarQ();
+});
+
+const showGrammarResult = () => {
+  document.getElementById('grammar-game-area').style.display = 'none';
+  const resScreen = document.getElementById('g-result-screen');
+  resScreen.style.display = 'block';
+  
+  document.getElementById('g-final-score').innerHTML = `
+    최종 점수: <span style="color:var(--accent-gold); font-weight:bold;">${gScore}</span>점<br>
+    정답률: ${Math.round(((20 - gMistakes.length)/20)*100)}%
+  `;
+};
+
+document.getElementById('btn-g-restart').onclick = initGrammar;
+document.getElementById('btn-g-review').onclick = () => {
+  const revArea = document.getElementById('g-review-area');
+  revArea.style.display = 'block';
+  revArea.innerHTML = '<h3 style="color:var(--accent-mint); margin-bottom:20px; font-size:1.4rem; border-bottom:1px solid var(--accent-mint); padding-bottom:10px;">틀린 문제 복습</h3>';
+  
+  const list = gMistakes.length > 0 ? gMistakes : gQuestions;
+  
+  list.forEach((q, i) => {
+    revArea.innerHTML += `
+      <div style="background:var(--box-bg); padding:25px; border-radius:10px; margin-bottom:25px; border:1px solid var(--border-color); box-shadow:0 4px 6px rgba(0,0,0,0.15);">
+        <div style="font-family:var(--font-en); font-weight:bold; margin-bottom:15px; font-size:1.2rem; line-height:1.5; color:#fff;">${i+1}. ${q.q}</div>
+        <div style="color:var(--accent-mint); margin-bottom:12px; font-size:1.1rem; font-weight:bold;">정답: ${q.opts[q.a]}</div>
+        <div style="font-size:1.05rem; color:var(--text-main); line-height:1.6; background:rgba(137,87,229,0.1); padding:15px; border-radius:6px; border-left:4px solid var(--accent-purple);">${q.exp}</div>
+      </div>
+    `;
+  });
+};
+
+initGrammar();
+
+
+// --- 5. VARIANTS TAB ---
+const renderVariantSelector = () => {
+  const sel = document.getElementById('variant-p-selector');
+  PASSAGES.forEach((p, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + (idx === 0 ? 'btn-primary' : '');
+    btn.innerText = p.name;
+    btn.onclick = () => {
+      sel.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary'));
+      btn.classList.add('btn-primary');
+      renderVariantContent(p.id);
+    };
+    sel.appendChild(btn);
+  });
+};
+
+const renderVariantContent = (pid) => {
+  const content = document.getElementById('variant-content');
+  const passageObj = PASSAGES.find(p => p.id === pid);
+  const vList = VARIANTS[pid];
+  
+  const fullText = passageObj.sentences.map(s => s.en).join(' ');
+  
+  let html = `
+    <div class="variant-box">
+      <div class="v-passage">${fullText}</div>
+  `;
+  
+  vList.forEach((v, idx) => {
+    html += `
+      <div class="v-q-box">
+        <span class="v-q-type">${v.type}</span>
+        <div class="v-q">${idx+1}. ${v.q}</div>
+        ${v.sentence ? `<div class="v-sentence">${v.sentence}</div>` : ''}
+        ${v.opts ? `
+          <div class="v-opts">
+            ${v.opts.map((o, i) => `<div class="v-opt-item">①②③④⑤`.charAt(i) + ` ${o}</div>`).join('')}
+          </div>
+        ` : ''}
+        <button class="btn btn-gold mt-10" onclick="document.getElementById('ans-${pid}-${idx}').style.display='block'" style="padding: 10px 20px; font-size:1.05rem;">정답·해설 보기</button>
+        <div class="v-ans-box" id="ans-${pid}-${idx}">
+          <div class="v-ans-text">정답: ${v.opts ? `①②③④⑤`.charAt(v.ans) + ` ` + v.opts[v.ans] : v.ans}</div>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += `</div>`;
+  content.innerHTML = html;
+};
+
+renderVariantSelector();
+renderVariantContent(PASSAGES[0].id);
+
+</script>
+</body>
+</html>
